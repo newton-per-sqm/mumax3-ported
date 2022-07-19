@@ -1,11 +1,14 @@
 mumax3 
 ======
-[![Build Status](https://travis-ci.org/mumax/3.svg?branch=master)](https://travis-ci.org/mumax/3)
+**Warning** this is a fully compatible fork of https://github.com/mumax/3 with an added custom geometry import feature. This has been ported to the new go modules system. Needs custom build instructions, see below.
+<p align="center">
+ <img src=https://user-images.githubusercontent.com/27999640/179756077-621b61a7-727b-4b82-ac67-63c499c0afae.png width="250">
+</p>
 
 GPU accelerated micromagnetic simulator.
 
 
-Downloads and documentation
+Documentation (no binaries here, purely DIY)
 ---------------------------
 
 http://mumax.github.io
@@ -25,36 +28,28 @@ Tools
 https://godoc.org/github.com/mumax/3/cmd
 
 
-Building from source (for linux)
+Building from source (for anything really)
 --------------------
 
-Consider downloading a pre-compiled binary. If you want to compile nevertheless:
-
-  * install the nvidia proprietary driver, if not yet present.
-   - if unsure, it's probably already there
-   - version 440.44 recommended
   * install Go 
     - https://golang.org/dl/
     - set $GOPATH
-  * install CUDA 
-    - https://developer.nvidia.com/cuda-downloads (pick default installation path)
-    - or `sudo apt-get install nvidia-cuda-toolkit`
+  * insall GIT, please
+  * install CUDA and nvidia driver
+    - `sudo apt-get install nvidia-cuda-toolkit nvidia-driver` or whatever your distro does
+    - only get drivers manually on windows, don't make your admin cry! https://developer.nvidia.com/cuda-downloads (pick default installation path)
+    - Windows only: this project has hardcoded location for CUDA SDK to C:\CUDA, symlink/install accordingly (you need to symlink the insides of the folder with version number as the name)
   * install a C compiler
-    - on Ubuntu: `sudo apt-get install gcc`
-  * if you have git installed: 
-    - `go get github.com/mumax/3/cmd/mumax3`
-  * if you don't have git:
-    - seriously, no git?
-    - get the source from https://github.com/mumax/3/releases
-    - unzip the source into $GOPATH/src/github.com/mumax/3
-    - `cd $GOPATH/src/github.com/mumax/3/cmd/mumax3`
-    - `go install`
+    - on Ubuntu/Debian: `sudo apt-get install gcc`
+    - on Windows either gcc or cl (from visual studio work, provided they are in PATH)
+  * get repo & compile
+    - clone this repo `git clone https://github.com/Artemkth/3.git`
+    - either a: build executable in curent dir by running `go build ./3/cmd/mumax3` or build it into $GOPATH/bin with `go install ./3/cmd/mumax3`
+    - other utilities can be built similarly by pointing at their directories instead
   * optional: install gnuplot if you want pretty graphs
     - on ubuntu: `sudo apt-get install gnuplot`
   * use the Makefile if there is a need to recompile the cuda kernels
     - `make realclean && make`
-
-Your binary is now at `$GOPATH/bin/mumax3`
 
 Contributing
 ------------
