@@ -2,7 +2,7 @@ mumax3
 ======
 **Warning** this is a fully compatible fork of https://github.com/mumax/3 with an added custom geometry import feature. This has been ported to the new go modules system. Needs custom build instructions, see below.
 <p align="center">
- <img src=https://user-images.githubusercontent.com/27999640/179756077-621b61a7-727b-4b82-ac67-63c499c0afae.png" width="500">
+ <img src=https://user-images.githubusercontent.com/27999640/179756077-621b61a7-727b-4b82-ac67-63c499c0afae.png width="500">
 </p>
 
 GPU accelerated micromagnetic simulator.
