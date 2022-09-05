@@ -45,7 +45,7 @@ Building from source (for anything really)
   * get repo & compile
     - clone this repo `git clone https://github.com/Artemkth/3.git`
     - change into the repository directory
-    - either a: build executable in curent dir by running `go build ./3/cmd/mumax3` or build it into $GOPATH/bin with `go install ./3/cmd/mumax3`
+    - either a: build executable in curent dir by running `go build ./cmd/mumax3` or build it into $GOPATH/bin with `go install ./3/cmd/mumax3`
     - other utilities can be built similarly by pointing at their directories instead
   * optional: install gnuplot if you want pretty graphs
     - on ubuntu: `sudo apt-get install gnuplot`
