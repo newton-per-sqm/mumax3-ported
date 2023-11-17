@@ -7,7 +7,7 @@
 extern "C" __global__ void
 setmaxangle(float* __restrict__ dst,
             float* __restrict__ mx, float* __restrict__ my, float* __restrict__ mz,
-            float* __restrict__ aLUT2d, uint8_t* __restrict__ regions,
+            float* __restrict__ aLUT2d, uint16_t* __restrict__ regions,
             int Nx, int Ny, int Nz, uint8_t PBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
@@ -26,7 +26,7 @@ setmaxangle(float* __restrict__ dst,
         return;
     }
 
-    uint8_t r0 = regions[I];
+    uint16_t r0 = regions[I];
     float angle  = 0.0f;
 
     int i_;    // neighbor index
@@ -92,4 +92,3 @@ setmaxangle(float* __restrict__ dst,
 
     dst[I] = angle;
 }
-

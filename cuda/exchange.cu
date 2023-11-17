@@ -9,7 +9,7 @@ extern "C" __global__ void
 addexchange(float* __restrict__ Bx, float* __restrict__ By, float* __restrict__ Bz,
             float* __restrict__ mx, float* __restrict__ my, float* __restrict__ mz,
             float* __restrict__ Ms_, float Ms_mul,
-            float* __restrict__ aLUT2d, uint8_t* __restrict__ regions,
+            float* __restrict__ aLUT2d, uint16_t* __restrict__ regions,
             float wx, float wy, float wz, int Nx, int Ny, int Nz, uint8_t PBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
@@ -28,7 +28,7 @@ addexchange(float* __restrict__ Bx, float* __restrict__ By, float* __restrict__ 
         return;
     }
 
-    uint8_t r0 = regions[I];
+    uint16_t r0 = regions[I];
     float3 B  = make_float3(0.0,0.0,0.0);
 
     int i_;    // neighbor index
@@ -85,4 +85,3 @@ addexchange(float* __restrict__ Bx, float* __restrict__ By, float* __restrict__ 
     By[I] += B.y*invMs;
     Bz[I] += B.z*invMs;
 }
-
