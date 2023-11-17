@@ -219,7 +219,7 @@ func (b *Regions) shift(dx int) {
 	r1 := b.Gpu()
 	r2 := cuda.NewBytes(b.Mesh().NCell()) // TODO: somehow recycle
 	defer r2.Free()
-	newreg := byte(0) // new region at edge
+	newreg := uint16(0) // new region at edge
 	cuda.ShiftBytes(r2, r1, b.Mesh(), dx, newreg)
 	r1.Copy(r2)
 
@@ -244,7 +244,7 @@ func (b *Regions) shiftY(dy int) {
 	r1 := b.Gpu()
 	r2 := cuda.NewBytes(b.Mesh().NCell()) // TODO: somehow recycle
 	defer r2.Free()
-	newreg := byte(0) // new region at edge
+	newreg := uint16(0) // new region at edge
 	cuda.ShiftBytesY(r2, r1, b.Mesh(), dy, newreg)
 	r1.Copy(r2)
 

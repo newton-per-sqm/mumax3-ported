@@ -15,7 +15,7 @@ func AddDMI(Beff *data.Slice, m *data.Slice, Aex_red, Dex_red SymmLUT, Msat MSli
 	N := Beff.Size()
 	util.Argument(m.Size() == N)
 	cfg := make3DConf(N)
-	var openBC byte
+	var openBC uint16
 	if OpenBC {
 		openBC = 1
 	}

@@ -14,7 +14,7 @@ func AddDMIBulk(Beff *data.Slice, m *data.Slice, Aex_red, D_red SymmLUT, Msat MS
 	N := Beff.Size()
 	util.Argument(m.Size() == N)
 	cfg := make3DConf(N)
-	var openBC byte
+	var openBC uint16
 	if OpenBC {
 		openBC = 1
 	}
