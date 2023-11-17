@@ -5,17 +5,17 @@
 #include "stencil.h"
 
 // Calculate magneto-elastic force density
-// fmelp = Σ ∂σpq / ∂xq (q = x, y, z) , σpq = ∂Umel / ∂epq, 
-// where epq is the strain tensor and 
+// fmelp = Σ ∂σpq / ∂xq (q = x, y, z) , σpq = ∂Umel / ∂epq,
+// where epq is the strain tensor and
 // Umel is the magneto-elastic energy density given by the eq. (12.18) of Gurevich&Melkov "Magnetization Oscillations and Waves", CRC Press, 1996
 extern "C" __global__ void
 getmagnetoelasticforce(float* __restrict__  fx, float* __restrict__  fy, float* __restrict__  fz,
                       float* __restrict__  mx, float* __restrict__  my, float* __restrict__  mz,
-                      float* __restrict__ B1_, float B1_mul, 
+                      float* __restrict__ B1_, float B1_mul,
 					  float* __restrict__ B2_, float B2_mul,
                       float rcsx, float rcsy, float rcsz,
-                      int Nx, int Ny, int Nz, 
-                      uint8_t PBC) {
+                      int Nx, int Ny, int Nz,
+                      uint16_t PBC) {
 
 	int ix = blockIdx.x * blockDim.x + threadIdx.x;
     int iy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -35,7 +35,7 @@ getmagnetoelasticforce(float* __restrict__  fx, float* __restrict__  fy, float* 
     int i_;                                       // neighbor index
 
     // ∂m/∂x
-	{	
+	{
 		float3 m_m2 = make_float3(0.0f, 0.0f, 0.0f);     // -2
         i_ = idx(lclampx(ix-2), iy, iz);                 // load neighbor m if inside grid, keep 0 otherwise
         if (ix-2 >= 0 || PBCx)
@@ -226,5 +226,3 @@ getmagnetoelasticforce(float* __restrict__  fx, float* __restrict__  fy, float* 
     fy[I] = 2.0f*B1*m0.y*dmdy.y + B2*(m0.x*dmdx.y + m0.y*(dmdx.x + dmdz.z) + m0.z*dmdz.y);
     fz[I] = 2.0f*B1*m0.z*dmdz.z + B2*(m0.x*dmdx.z + m0.y*dmdy.z + m0.z*(dmdx.x + dmdy.y));
 }
-
-

@@ -14,7 +14,7 @@ __device__ inline float triangleCharge(float3 mi, float3 mj, float3 mk) {
     return 2.0f * atan2(numer, denom);
 }
 
-// Set s to the toplogogical charge density for lattices based on the solid angle 
+// Set s to the toplogogical charge density for lattices based on the solid angle
 // subtended by triangle associated with three spins: a,b,c
 //
 // 	  s = 2 atan[(a . b x c /(1 + a.b + a.c + b.c)] / (dx dy)
@@ -28,7 +28,7 @@ __device__ inline float triangleCharge(float3 mi, float3 mj, float3 mk) {
 extern "C" __global__ void
 settopologicalchargelattice(float* __restrict__ s,
                      float* __restrict__ mx, float* __restrict__ my, float* __restrict__ mz,
-                     float icxcy, int Nx, int Ny, int Nz, uint8_t PBC) {
+                     float icxcy, int Nx, int Ny, int Nz, uint16_t PBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
     int iy = blockIdx.y * blockDim.y + threadIdx.y;
@@ -59,11 +59,11 @@ settopologicalchargelattice(float* __restrict__ s,
     float3 m4 = make_float3(mx[i4], my[i4], mz[i4]);
 
     // local topological charge (accumulator)
-    float topcharge = 0.0; 
+    float topcharge = 0.0;
 
     // charge contribution from the upper right triangle
     // if diagonally opposite neighbor is not zero, use a weight of 1/2 to avoid counting charges twice
-    if ((ix+1<Nx || PBCx) && (iy+1<Ny || PBCy)) { 
+    if ((ix+1<Nx || PBCx) && (iy+1<Ny || PBCy)) {
         int i_ = idx(hclampx(ix+1), hclampy(iy+1), iz); // diagonal opposite neighbor in upper right quadrant
         float3 m_ = make_float3(mx[i_], my[i_], mz[i_]);
         float weight = is0(m_) ? 1 : 0.5;
@@ -71,24 +71,24 @@ settopologicalchargelattice(float* __restrict__ s,
     }
 
     // upper left
-    if ((ix-1>=0 || PBCx) && (iy+1<Ny || PBCy)) { 
-        int i_ = idx(lclampx(ix-1), hclampy(iy+1), iz); 
+    if ((ix-1>=0 || PBCx) && (iy+1<Ny || PBCy)) {
+        int i_ = idx(lclampx(ix-1), hclampy(iy+1), iz);
         float3 m_ = make_float3(mx[i_], my[i_], mz[i_]);
         float weight = is0(m_) ? 1 : 0.5;
         topcharge += weight * triangleCharge(m0, m2, m3);
     }
 
     // bottom left
-    if ((ix-1>=0 || PBCx) && (iy-1>=0 || PBCy)) { 
-        int i_ = idx(lclampx(ix-1), lclampy(iy-1), iz); 
+    if ((ix-1>=0 || PBCx) && (iy-1>=0 || PBCy)) {
+        int i_ = idx(lclampx(ix-1), lclampy(iy-1), iz);
         float3 m_ = make_float3(mx[i_], my[i_], mz[i_]);
         float weight = is0(m_) ? 1 : 0.5;
         topcharge += weight * triangleCharge(m0, m3, m4);
     }
 
     // bottom right
-    if ((ix+1<Nx || PBCx) && (iy-1>=0 || PBCy)) { 
-        int i_ = idx(hclampx(ix+1), lclampy(iy-1), iz); 
+    if ((ix+1<Nx || PBCx) && (iy-1>=0 || PBCy)) {
+        int i_ = idx(hclampx(ix+1), lclampy(iy-1), iz);
         float3 m_ = make_float3(mx[i_], my[i_], mz[i_]);
         float weight = is0(m_) ? 1 : 0.5;
         topcharge += weight * triangleCharge(m0, m4, m1);

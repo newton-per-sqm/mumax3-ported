@@ -16,7 +16,7 @@ adddmi(float* __restrict__ Hx, float* __restrict__ Hy, float* __restrict__ Hz,
        float* __restrict__ mx, float* __restrict__ my, float* __restrict__ mz,
        float* __restrict__ Ms_, float Ms_mul,
        float* __restrict__ aLUT2d, float* __restrict__ dLUT2d, uint16_t* __restrict__ regions,
-       float cx, float cy, float cz, int Nx, int Ny, int Nz, uint8_t PBC, uint8_t OpenBC) {
+       float cx, float cy, float cz, int Nx, int Ny, int Nz, uint16_t PBC, uint16_t OpenBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
     int iy = blockIdx.y * blockDim.y + threadIdx.y;

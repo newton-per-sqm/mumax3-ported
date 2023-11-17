@@ -6,7 +6,7 @@
 // see exchange.go
 extern "C" __global__ void
 exchangedecode(float* __restrict__ dst, float* __restrict__ aLUT2d, uint16_t* __restrict__ regions,
-               float wx, float wy, float wz, int Nx, int Ny, int Nz, uint8_t PBC) {
+               float wx, float wy, float wz, int Nx, int Ny, int Nz, uint16_t PBC) {
 
     int ix = blockIdx.x * blockDim.x + threadIdx.x;
     int iy = blockIdx.y * blockDim.y + threadIdx.y;

@@ -3,9 +3,9 @@ package engine
 import (
 	"github.com/mumax/3/v3/cuda"
 	"github.com/mumax/3/v3/data"
-	"github.com/mumax/3/v3/util"
-	"github.com/mumax/3/v3/oommf"
 	"github.com/mumax/3/v3/httpfs"
+	"github.com/mumax/3/v3/oommf"
+	"github.com/mumax/3/v3/util"
 	"math/rand"
 )
 
@@ -126,17 +126,17 @@ func InitGeomFromOVF(fname string) {
 	step := meta.CellSize
 
 	//check the geometry file for sanity
-	if geomSlice.NComp() != 1{
+	if geomSlice.NComp() != 1 {
 		util.Fatal("Geometry initialization file should have point dimension of 1!")
 	}
-	if !isNonEmpty( geomSlice ) {
+	if !isNonEmpty(geomSlice) {
 		util.Fatal("InitGeomFromOVF: provided geometry is completely empty!")
 	}
 
 	//set mesh from imported file, should refresh it by itself
-	SetMesh( arrDim[X], arrDim[Y], arrDim[Z],
-			 step[X], step[Y], step[Z],
-			 0, 0, 0 )
+	SetMesh(arrDim[X], arrDim[Y], arrDim[Z],
+		step[X], step[Y], step[Z],
+		0, 0, 0)
 
 	SetBusy(true)
 	defer SetBusy(false)
@@ -149,17 +149,17 @@ func InitGeomFromOVF(fname string) {
 	data.Copy(geometry.buffer, geomSlice)
 
 	//make a makeshift function to represent imported geometry
-        isInterpd := false
-        pred := VoxelShape(geomSlice, step[0], step[1], step[2])
+	isInterpd := false
+	pred := VoxelShape(geomSlice, step[0], step[1], step[2])
 	geometry.shape = func(x, y, z float64) bool {
-            if !isInterpd {
-                util.Log("Warning! Geometry imported through InitGeomFromOVF is about to be reinterpolated! Possible changes in geometry!")
-                isInterpd = true
-            }
-            return pred(x, y, z)
+		if !isInterpd {
+			util.Log("Warning! Geometry imported through InitGeomFromOVF is about to be reinterpolated! Possible changes in geometry!")
+			isInterpd = true
+		}
+		return pred(x, y, z)
 	}
 
-        cleanMagnetization(geomSlice)
+	cleanMagnetization(geomSlice)
 }
 
 func (geometry *geom) setGeom(s Shape) {
@@ -240,7 +240,7 @@ func (geometry *geom) setGeom(s Shape) {
 
 	data.Copy(geometry.buffer, V)
 
-        cleanMagnetization(host)
+	cleanMagnetization(host)
 }
 
 // Sample edgeSmooth^3 points inside the cell to estimate its volume.
